@@ -422,7 +422,7 @@ fn walk_entities(stdout: String) -> Result<Vec<String>, Box<dyn std::error::Erro
 
 fn append_env(env: String, ent: String) -> Result<(), Box<dyn std::error::Error>> {
     // for bash
-    let mut env_file = std::fs::OpenOptions::new().append(true).open(".env")?;
+    let mut env_file = std::fs::OpenOptions::new().create(true).append(true).open(".env")?;
     let mut env_line = env.clone();
     env_line.push_str("=");
     env_line.push_str(&ent);
@@ -431,7 +431,7 @@ fn append_env(env: String, ent: String) -> Result<(), Box<dyn std::error::Error>
 
     if env::consts::OS == "windows" {
         // for cmd
-        let mut env_file = std::fs::OpenOptions::new().append(true).open("env.bat")?;
+        let mut env_file = std::fs::OpenOptions::new().create(true).append(true).open("env.bat")?;
         let mut env_line = String::from("set ");
         env_line.push_str(&env);
         env_line.push_str("=\"");
@@ -440,7 +440,7 @@ fn append_env(env: String, ent: String) -> Result<(), Box<dyn std::error::Error>
         env_file.write_all(env_line.as_bytes())?;
 
         // for ps
-        let mut env_file = std::fs::OpenOptions::new().append(true).open("env.ps1")?;
+        let mut env_file = std::fs::OpenOptions::new().create(true).append(true).open("env.ps1")?;
         let mut env_line = String::from("$");
         env_line.push_str(&env);
         env_line.push_str("=\"");
